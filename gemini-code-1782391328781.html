@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bijak Edukids - Aplikasi Pembelajaran Kanak-Kanak</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Comic Neue', cursive, sans-serif;
+            background-color: #FEF3C7; /* Warna kuning lembut padang permainan */
+        }
+        .bounce-hover:hover {
+            transform: scale(1.08) rotate(2deg);
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col justify-between overflow-x-hidden select-none">
+
+    <header class="bg-white shadow-md p-4 flex justify-between items-center rounded-b-3xl border-b-4 border-yellow-400">
+        <div class="flex items-center space-x-2 cursor-pointer" onclick="tukarSkrin('menu-utama')">
+            <span class="text-3xl">🎒</span>
+            <h1 class="text-2xl md:text-3xl font-bold tracking-wide text-amber-500">
+                <span class="text-red-500">Bi</span><span class="text-blue-500">jak</span> 
+                <span class="text-green-500">Edu</span><span class="text-purple-500">kids</span>
+            </h1>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <button id="btn-lang" onclick="tukarBahasa()" class="bg-indigo-500 text-white font-bold py-1 px-3 rounded-full text-sm shadow-md border-b-4 border-indigo-700 active:border-b-0 active:mt-1 transition-all">
+                🌐 EN
+            </button>
+            <button onclick="tukarSkrin('menu-utama')" class="bg-green-500 text-white p-2 rounded-full shadow-md border-b-4 border-green-700 active:border-b-0 active:mt-1 transition-all">
+                <i class="fa-solid fa-house text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow p-4 md:p-8 flex items-center justify-center max-w-4xl mx-auto w-full">
+        
+        <div id="menu-utama" class="w-full text-center space-y-6">
+            <h2 id="txt-selamat" class="text-2xl md:text-4xl font-bold text-slate-700 animate-bounce">👋 Selamat Datang, Jom Belajar!</h2>
+            
+            <div class="grid grid-cols-2 gap-4 md:gap-6">
+                <div onclick="tukarSkrin('modul-abc')" class="bounce-hover bg-rose-400 text-white p-6 rounded-2xl shadow-xl border-b-8 border-rose-600 cursor-pointer flex flex-col items-center justify-center space-y-2">
+                    <span class="text-5xl md:text-6xl">🔤</span>
+                    <span class="text-xl md:text-2xl font-bold menu-title" data-ms="Belajar ABC" data-en="Learn ABC">Belajar ABC</span>
+                </div>
+                
+                <div onclick="tukarSkrin('modul-123')" class="bounce-hover bg-sky-400 text-white p-6 rounded-2xl shadow-xl border-b-8 border-sky-600 cursor-pointer flex flex-col items-center justify-center space-y-2">
+                    <span class="text-5xl md:text-6xl">🔢</span>
+                    <span class="text-xl md:text-2xl font-bold menu-title" data-ms="Kira 123" data-en="Count 123">Kira 123</span>
+                </div>
+
+                <div onclick="tukarSkrin('modul-warna')" class="bounce-hover bg-emerald-400 text-white p-6 rounded-2xl shadow-xl border-b-8 border-emerald-600 cursor-pointer flex flex-col items-center justify-center space-y-2">
+                    <span class="text-5xl md:text-6xl">🎨</span>
+                    <span class="text-xl md:text-2xl font-bold menu-title" data-ms="Kenal Warna" data-en="Learn Colors">Kenal Warna</span>
+                </div>
+
+                <div onclick="mulaKuiz()" class="bounce-hover bg-violet-400 text-white p-6 rounded-2xl shadow-xl border-b-8 border-violet-600 cursor-pointer flex flex-col items-center justify-center space-y-2">
+                    <span class="text-5xl md:text-6xl">🎮</span>
+                    <span class="text-xl md:text-2xl font-bold menu-title" data-ms="Kuiz Bijak" data-en="Smart Quiz">Kuiz Bijak</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="modul-abc" class="hidden w-full text-center space-y-4">
+            <h2 class="text-3xl font-bold text-rose-600 menu-title" data-ms="Mari Belajar Alfabat" data-en="Let's Learn Alphabet">Mari Belajar Alfabet</h2>
+            
+            <div class="bg-white p-8 rounded-3xl shadow-xl max-w-sm mx-auto border-4 border-rose-300">
+                <span id="abc-display" class="text-8xl font-bold text-rose-500 block animate-pulse">A</span>
+                <span id="abc-word" class="text-2xl font-bold text-slate-600 block mt-2">Ayam</span>
+            </div>
+
+            <div class="flex justify-center space-x-4 mt-4">
+                <button onclick="navigasiABC(-1)" class="bg-rose-500 text-white px-6 py-3 rounded-full text-xl font-bold shadow-md border-b-4 border-rose-700 active:border-b-0 active:mt-1"><i class="fa-solid fa-arrow-left"></i></button>
+                <button onclick="sebutPerkataan()" class="bg-yellow-400 text-slate-700 px-6 py-3 rounded-full text-xl font-bold shadow-md border-b-4 border-yellow-600 active:border-b-0 active:mt-1"><i class="fa-solid fa-volume-high"></i></button>
+                <button onclick="navigasiABC(1)" class="bg-rose-500 text-white px-6 py-3 rounded-full text-xl font-bold shadow-md border-b-4 border-rose-700 active:border-b-0 active:mt-1"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="modul-123" class="hidden w-full text-center space-y-4">
+            <h2 class="text-3xl font-bold text-sky-600 menu-title" data-ms="Mari Mengira" data-en="Let's Count">Mari Mengira</h2>
+            
+            <div class="bg-white p-8 rounded-3xl shadow-xl max-w-sm mx-auto border-4 border-sky-300 space-y-4">
+                <span id="num-display" class="text-8xl font-bold text-sky-500 block">1</span>
+                <div id="num-objects" class="text-3xl flex justify-center flex-wrap gap-2 min-h-[40px]">
+                    🍎
+                </div>
+            </div>
+
+            <div class="flex justify-center space-x-4 mt-4">
+                <button onclick="navigasi123(-1)" class="bg-sky-500 text-white px-6 py-3 rounded-full text-xl font-bold shadow-md border-b-4 border-sky-700 active:border-b-0 active:mt-1"><i class="fa-solid fa-arrow-left"></i></button>
+                <button onclick="navigasi123(1)" class="bg-sky-500 text-white px-6 py-3 rounded-full text-xl font-bold shadow-md border-b-4 border-sky-700 active:border-b-0 active:mt-1"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="modul-warna" class="hidden w-full text-center space-y-4">
+            <h2 class="text-3xl font-bold text-emerald-600 menu-title" data-ms="Kenali Warna" data-en="Discover Colors">Kenali Warna</h2>
+            
+            <div id="color-box" class="w-48 h-48 rounded-full shadow-2xl mx-auto border-8 border-white animate-spin-slow bg-red-500 transition-colors duration-500"></div>
+            <h3 id="color-name" class="text-3xl font-bold text-slate-700 capitalize">Merah</h3>
+
+            <div class="grid grid-cols-3 gap-3 max-w-xs mx-auto mt-4">
+                <button onclick="tukarWarna('#EF4444', 'Merah', 'Red')" class="w-12 h-12 bg-red-500 rounded-full border-4 border-white shadow-md mx-auto"></button>
+                <button onclick="tukarWarna('#3B82F6', 'Biru', 'Blue')" class="w-12 h-12 bg-blue-500 rounded-full border-4 border-white shadow-md mx-auto"></button>
+                <button onclick="tukarWarna('#10B981', 'Hijau', 'Green')" class="w-12 h-12 bg-emerald-500 rounded-full border-4 border-white shadow-md mx-auto"></button>
+                <button onclick="tukarWarna('#F59E0B', 'Kuning', 'Yellow')" class="w-12 h-12 bg-amber-500 rounded-full border-4 border-white shadow-md mx-auto"></button>
+                <button onclick="tukarWarna('#8B5CF6', 'Ungu', 'Purple')" class="w-12 h-12 bg-purple-500 rounded-full border-4 border-white shadow-md mx-auto"></button>
+                <button onclick="tukarWarna('#F472B6', 'Merah Jambu', 'Pink')" class="w-12 h-12 bg-pink-400 rounded-full border-4 border-white shadow-md mx-auto"></button>
+            </div>
+        </div>
+
+        <div id="modul-kuiz" class="hidden w-full text-center space-y-6">
+            <div class="flex justify-between items-center max-w-md mx-auto px-4">
+                <span id="quiz-score" class="text-xl font-bold text-amber-600 bg-amber-100 px-3 py-1 rounded-full">⭐ Markah: 0</span>
+                <span id="quiz-timer" class="text-xl font-bold text-red-500"><i class="fa-solid fa-clock animate-pulse"></i> Soalan 1/3</span>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl shadow-xl max-w-md mx-auto border-4 border-violet-300 space-y-4">
+                <h3 id="quiz-question" class="text-2xl font-bold text-slate-700">Di mana buah epal?</h3>
+                <div id="quiz-visual" class="text-6xl py-2">🍎</div>
+                
+                <div id="quiz-options" class="grid grid-cols-2 gap-4">
+                    </div>
+            </div>
+
+            <div id="quiz-feedback" class="text-2xl font-bold hidden animate-bounce"></div>
+        </div>
+
+    </main>
+
+    <footer class="bg-amber-100 p-2 text-center text-xs text-amber-700 border-t border-amber-200">
+        &copy; 2026 Bijak Edukids. Selamat & Bebas Iklan.
+    </footer>
+
+    <script>
+        // Data Aplikasi
+        let bahasaSemasa = 'ms'; // 'ms' atau 'en'
+        let indeksABC = 0;
+        let indeks123 = 1;
+        
+        const dataABC = {
+            ms: [
+                { huruf: 'A', perkataan: 'Ayam' },
+                { huruf: 'B', perkataan: 'Bola' },
+                { huruf: 'C', perkataan: 'Cawan' },
+                { huruf: 'D', perkataan: 'Datuk' },
+                { huruf: 'E', perkataan: 'Epal' }
+            ],
+            en: [
+                { huruf: 'A', perkataan: 'Apple' },
+                { huruf: 'B', perkataan: 'Ball' },
+                { huruf: 'C', perkataan: 'Cat' },
+                { huruf: 'D', perkataan: 'Dog' },
+                { huruf: 'E', perkataan: 'Elephant' }
+            ]
+        };
+
+        // Data Kuiz
+        let soalanSemasa = 0;
+        let markah = 0;
+        const bankSoalan = {
+            ms: [
+                { q: "Yang mana satu huruf 'B'?", opt: ["A", "B", "C", "D"], ans: "B", type: "text" },
+                { q: "Kira jumlah epal ini: 🍎🍎🍎", opt: ["2", "3", "4", "5"], ans: "3", type: "text" },
+                { q: "Apakah warna bagi pisang 🍌?", opt: ["Merah", "Biru", "Kuning", "Hijau"], ans: "Kuning", type: "text" }
+            ],
+            en: [
+                { q: "Which one is the letter 'B'?", opt: ["A", "B", "C", "D"], ans: "B", type: "text" },
+                { q: "Count the apples: 🍎🍎🍎", opt: ["2", "3", "4", "5"], ans: "3", type: "text" },
+                { q: "What color is a banana 🍌?", opt: ["Red", "Blue", "Yellow", "Green"], ans: "Yellow", type: "text" }
+            ]
+        };
+
+        // Fungsi Tukar Skrin (Navigasi)
+        function tukarSkrin(idSkrin) {
+            const skrin = ['menu-utama', 'modul-abc', 'modul-123', 'modul-warna', 'modul-kuiz'];
+            skrin.forEach(s => {
+                document.getElementById(s).classList.add('hidden');
+            });
+            document.getElementById(idSkrin).classList.remove('hidden');
+            
+            // Suara maklumbalas klik mesra kanak-kanak (bunyi pop ringkas guna audio sintesis)
+            bunyiPop();
+        }
+
+        // Fungsi Tukar Bahasa
+        function tukarBahasa() {
+            bahasaSemasa = bahasaSemasa === 'ms' ? 'en' : 'ms';
+            document.getElementById('btn-lang').innerText = bahasaSemasa === 'ms' ? '🌐 EN' : '🌐 BM';
+            
+            // Kemas kini teks menu utama
+            document.getElementById('txt-selamat').innerText = bahasaSemasa === 'ms' ? '👋 Selamat Datang, Jom Belajar!' : '👋 Welcome, Let\'s Learn!';
+            
+            document.querySelectorAll('.menu-title').forEach(el => {
+                el.innerText = el.getAttribute(`data-${bahasaSemasa}`);
+            });
+
+            // Reset modul ke bahasa baru
+            kemaskiniABC();
+            if(bahasaSemasa === 'en') {
+                tukarWarna('#EF4444', 'Red', 'Red');
+            } else {
+                tukarWarna('#EF4444', 'Merah', 'Red');
+            }
+        }
+
+        // --- LOGIK MODUL ABC ---
+        function kemaskiniABC() {
+            let data = dataABC[bahasaSemasa][indeksABC];
+            document.getElementById('abc-display').innerText = data.huruf;
+            document.getElementById('abc-word').innerText = data.perkataan;
+        }
+
+        function navigasiABC(arah) {
+            indeksABC += arah;
+            if(indeksABC < 0) indeksABC = dataABC[bahasaSemasa].length - 1;
+            if(indeksABC >= dataABC[bahasaSemasa].length) indeksABC = 0;
+            kemaskiniABC();
+            sebutPerkataan();
+        }
+
+        function sebutPerkataan() {
+            let data = dataABC[bahasaSemasa][indeksABC];
+            sebutSuara(data.huruf + "..." + data.perkataan);
+        }
+
+        // --- LOGIK MODUL 123 ---
+        function navigasi123(arah) {
+            indeks123 += arah;
+            if(indeks123 < 1) indeks123 = 10;
+            if(indeks123 > 10) indeks123 = 1;
+            
+            document.getElementById('num-display').innerText = indeks123;
+            
+            // Janakan ikon epal mengikut nombor
+            let bekasEpal = document.getElementById('num-objects');
+            bekasEpal.innerHTML = '';
+            for(let i=0; i<indeks123; i++) {
+                bekasEpal.innerHTML += '🍎';
+            }
+            sebutSuara(indeks123.toString());
+        }
+
+        // --- LOGIK MODUL WARNA ---
+        function tukarWarna(hex, namaMs, namaEn) {
+            document.getElementById('color-box').style.backgroundColor = hex;
+            let namaWarna = bahasaSemasa === 'ms' ? namaMs : namaEn;
+            document.getElementById('color-name').innerText = namaWarna;
+            sebutSuara(namaWarna);
+        }
+
+        // --- LOGIK MODUL KUIZ ---
+        function mulaKuiz() {
+            soalanSemasa = 0;
+            markah = 0;
+            tukarSkrin('modul-kuiz');
+            paparSoalan();
+        }
+
+        function paparSoalan() {
+            let setSoalan = bankSoalan[bahasaSemasa][soalanSemasa];
+            document.getElementById('quiz-score').innerText = bahasaSemasa === 'ms' ? `⭐ Markah: ${markah}` : `⭐ Score: ${markah}`;
+            document.getElementById('quiz-timer').innerText = bahasaSemasa === 'ms' ? `Soalan ${soalanSemasa + 1}/3` : `Question ${soalanSemasa + 1}/3`;
+            document.getElementById('quiz-question').innerText = setSoalan.q;
+            
+            // Sembunyikan pembayang visual jika soalan huruf
+            if(soalanSemasa === 0) {
+                document.getElementById('quiz-visual').innerText = "❓";
+            } else if (soalanSemasa === 1) {
+                document.getElementById('quiz-visual').innerText = "🍎🍎🍎";
+            } else {
+                document.getElementById('quiz-visual').innerText = "🍌";
+            }
+
+            let bekasPilihan = document.getElementById('quiz-options');
+            bekasPilihan.innerHTML = '';
+            
+            setSoalan.opt.forEach(pilihan => {
+                let btn = document.createElement('button');
+                btn.className = "bg-amber-400 text-slate-700 font-bold p-4 rounded-xl text-xl shadow-md border-b-4 border-amber-600 active:border-b-0 bounce-hover";
+                btn.innerText = pilihan;
+                btn.onclick = () => semakJawapan(pilihan, setSoalan.ans);
+                bekasPilihan.appendChild(btn);
+            });
+            
+            document.getElementById('quiz-feedback').classList.add('hidden');
+        }
+
+        function semakJawapan(pilihan, jawapanBetul) {
+            let maklumbalas = document.getElementById('quiz-feedback');
+            maklumbalas.classList.remove('hidden');
+            
+            if(pilihan === jawapanBetul) {
+                markah += 10;
+                maklumbalas.innerText = bahasaSemasa === 'ms' ? "🎉 Betul! Bijak!" : "🎉 Correct! Smart!";
+                maklumbalas.className = "text-2xl font-bold text-green-500 animate-bounce";
+                sebutSuara(bahasaSemasa === 'ms' ? "Betul" : "Correct");
+            } else {
+                maklumbalas.innerText = bahasaSemasa === 'ms' ? "Try Lagi! 💪" : "Try Again! 💪";
+                maklumbalas.className = "text-2xl font-bold text-red-500 animate-bounce";
+                sebutSuara(bahasaSemasa === 'ms' ? "Cuba lagi" : "Try again");
+            }
+
+            setTimeout(() => {
+                soalanSemasa++;
+                if(soalanSemasa < bankSoalan[bahasaSemasa].length) {
+                    paparSoalan();
+                } else {
+                    // Tamat Kuiz
+                    let mesejTamat = bahasaSemasa === 'ms' ? `Hebat! Markah akhir anda: ${markah}` : `Great job! Your final score: ${markah}`;
+                    alert(mesejTamat);
+                    tukarSkrin('menu-utama');
+                }
+            }, 1800);
+        }
+
+        // --- SISTEM SUARA (TEXT TO SPEECH) ---
+        function sebutSuara(teks) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Hentikan suara sedia ada
+                let sebutan = new SpeechSynthesisUtterance(teks);
+                sebutan.lang = bahasaSemasa === 'ms' ? 'id-ID' : 'en-US'; // Guna id-ID sebagai ganti bunyi Bahasa Melayu yang lebih natural jika tiada MS asli
+                sebutan.rate = 0.8; // Perlahankan suara sedikit supaya kanak-kanak faham
+                window.speechSynthesis.speak(sebutan);
+            }
+        }
+
+        function bunyiPop() {
+            if ('speechSynthesis' in window) {
+                // Bunyi klik mesra kanak-kanak secara ringkas
+                let sebutan = new SpeechSynthesisUtterance('');
+                window.speechSynthesis.speak(sebutan);
+            }
+        }
+    </script>
+</body>
+</html>
